@@ -1,0 +1,13 @@
+.navbar-brand {
+  font-weight: 900;
+}
+
+@media (max-width: 990px) {
+  .navbar .form {
+    margin: 1rem 0;
+  }
+
+  .navbar .dropdown {
+    display: none;
+  }
+}
