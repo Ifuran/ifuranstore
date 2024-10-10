@@ -1,15 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./pages.css";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { plusOne } from "../features/cartSlice";
+import { getFromCart, plusOne, minusOne } from "../features/cartSlice";
 
 const CartPage = () => {
   const dispatch = useDispatch();
   const { data, qty, price } = useSelector((state) => state.cart);
 
-  const plusOneToCart = () => {
-    dispatch(plusOne());
+  useEffect(() => {
+    dispatch(getFromCart());
+  }, []);
+
+  const plusOneToCart = (product) => {
+    dispatch(plusOne(product));
+  };
+
+  const minusOneFromCart = (product) => {
+    dispatch(minusOne(product));
   };
 
   return (
@@ -38,12 +46,15 @@ const CartPage = () => {
                   <div className="cart-product-quantity">
                     <button
                       className="btn btn-sm btn-success rounded"
-                      onClick={() => plusOneToCart()}
+                      onClick={() => plusOneToCart(product)}
                     >
                       +
                     </button>
                     <span className="mx-3">{product.qty}</span>
-                    <button className="btn btn-sm btn-success rounded">
+                    <button
+                      className="btn btn-sm btn-success rounded"
+                      onClick={() => minusOneFromCart(product)}
+                    >
                       -
                     </button>
                   </div>

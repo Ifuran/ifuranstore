@@ -3,6 +3,7 @@ import "./pages.css";
 import { useParams } from "react-router-dom";
 import { fetchProductById } from "../features/productSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "../features/cartSlice";
 
 const ProductDetailPage = () => {
   const { id } = useParams();
@@ -16,6 +17,10 @@ const ProductDetailPage = () => {
     dispatch(fetchProductById(id));
   }, [dispatch]);
 
+  const handleAddToCart = () => {
+    const product = { ...item, qty: 1 };
+    dispatch(addToCart(product));
+  };
   if (isLoading) {
     return (
       <div className="container product-list pt-5 mt-5 text-center">
@@ -49,7 +54,12 @@ const ProductDetailPage = () => {
             <h4 className="product-price mt-3 text-secondary">
               $ {item.price}
             </h4>
-            <button className="btn btn-success my-3">Add to Cart</button>
+            <button
+              className="btn btn-success my-3"
+              onClick={() => handleAddToCart()}
+            >
+              Add to Cart
+            </button>
             <h6 className="my-3 fw-bold">
               Category:{" "}
               <span className="badge text-bg-success">{item.category}</span>
