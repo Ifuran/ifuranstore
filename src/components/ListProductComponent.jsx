@@ -1,11 +1,21 @@
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { addToCart } from "../features/cartSlice";
+import { checkLoginUser } from "../features/authSlice";
 
 const ListProductComponent = ({ data, category }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { token } = useSelector((state) => state.user);
 
   const handleAddToCart = (product) => {
+    dispatch(checkLoginUser());
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
     const item = { ...product, qty: 1 };
     dispatch(addToCart(item));
   };

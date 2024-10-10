@@ -1,26 +1,36 @@
 import React, { useEffect } from "react";
 import "./pages.css";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { fetchProductById } from "../features/productSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../features/cartSlice";
+import { checkLoginUser } from "../features/authSlice";
 
 const ProductDetailPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { item, isLoading, errorMessage } = useSelector(
     (state) => state.product
   );
+  const { token } = useSelector((state) => state.user);
 
   useEffect(() => {
     dispatch(fetchProductById(id));
   }, [dispatch]);
 
   const handleAddToCart = () => {
+    dispatch(checkLoginUser());
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
     const product = { ...item, qty: 1 };
     dispatch(addToCart(product));
   };
+
   if (isLoading) {
     return (
       <div className="container product-list pt-5 mt-5 text-center">

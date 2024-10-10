@@ -64,8 +64,8 @@ export function checkLoginUser() {
     const token = localStorage.getItem("token");
     if (token) {
       dispatch(authUserSuccess(token));
-      return;
+      return true;
     }
-    return;
+    return false;
   };
 }
