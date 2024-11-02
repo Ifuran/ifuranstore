@@ -41,6 +41,15 @@ export const cartSlice = createSlice({
         state.price = parseInt(price);
       }
     },
+    resetFromCart: (state, action) => {
+      state.cart = [];
+      state.qty = 0;
+      state.price = 0;
+
+      localStorage.removeItem("cart");
+      localStorage.removeItem("qty");
+      localStorage.removeItem("price");
+    },
     plusOne: (state, action) => {
       const product = state.data.find(
         (product) => product.id === action.payload.id
@@ -82,6 +91,7 @@ export const cartSlice = createSlice({
   },
 });
 
-export const { addToCart, getFromCart, plusOne, minusOne } = cartSlice.actions;
+export const { addToCart, getFromCart, resetFromCart, plusOne, minusOne } =
+  cartSlice.actions;
 
 export default cartSlice.reducer;
