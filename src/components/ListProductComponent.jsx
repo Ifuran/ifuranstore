@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { addToCart } from "../features/cartSlice";
 import { checkLoginUser } from "../features/authSlice";
+import RatingComponent from "./RatingComponent";
 
 const ListProductComponent = ({ data, category }) => {
   const dispatch = useDispatch();
@@ -48,11 +49,12 @@ const ListProductComponent = ({ data, category }) => {
                 <div className="card-body">
                   <h6 className="card-title text-truncate">{product.title}</h6>
                   <p className="card-price">$ {product.price}</p>
+                  <RatingComponent rating={product.rating} />
                   <button
-                    className="btn btn-sm btn-outline-success"
+                    className="btn btn-sm btn-outline-success mt-2"
                     onClick={() => handleAddToCart(product)}
                   >
-                    Add to Cart
+                    <i className="fa-solid fa-cart-shopping"></i> Add to Cart
                   </button>
                 </div>
               </div>
