@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { checkLoginUser, logoutUser } from "../features/authSlice";
-import { getFromCart } from "../features/cartSlice";
+import { getFromCart, resetFromCart } from "../features/cartSlice";
 
 const NavbarComponent = () => {
   const [categories, setCategories] = useState([]);
@@ -31,6 +31,7 @@ const NavbarComponent = () => {
 
   const handleLogout = () => {
     dispatch(logoutUser());
+    dispatch(resetFromCart());
     navigate("/login");
   };
 
@@ -79,7 +80,7 @@ const NavbarComponent = () => {
             <div className="action-wrapper d-flex gap-3">
               <div className="cart">
                 <Link to="/cart" className="btn btn-outline-success">
-                  Cart : {qty}
+                  <i className="fa-solid fa-cart-shopping"></i> Cart : {qty}
                 </Link>
               </div>
               {!token ? (
