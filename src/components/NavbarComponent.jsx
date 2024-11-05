@@ -6,9 +6,11 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { checkLoginUser, logoutUser } from "../features/authSlice";
 import { getFromCart, resetFromCart } from "../features/cartSlice";
+import { filterProductsByKeyword } from "../features/productSlice";
 
 const NavbarComponent = () => {
   const [categories, setCategories] = useState([]);
+  const [keyword, setKeyword] = useState("");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -35,6 +37,12 @@ const NavbarComponent = () => {
     navigate("/login");
   };
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+    navigate("/");
+    dispatch(filterProductsByKeyword(keyword));
+  };
+
   return (
     <>
       <Navbar
@@ -52,7 +60,6 @@ const NavbarComponent = () => {
             <div className="dropdown ms-auto d-block">
               <NavDropdown title="Categories" id="basic-nav-dropdown">
                 {categories.map((category, index) => (
-                  // Menggunakan Link langsung sebagai item dropdown
                   <Link
                     key={index}
                     to={`category/${category}`}
@@ -63,7 +70,11 @@ const NavbarComponent = () => {
                 ))}
               </NavDropdown>
             </div>
-            <form className="form d-flex mx-auto" role="search">
+            <form
+              className="form d-flex mx-auto"
+              role="search"
+              onSubmit={handleSearch}
+            >
               <div className="input-group">
                 <input
                   type="text"
@@ -71,6 +82,7 @@ const NavbarComponent = () => {
                   placeholder="Search.."
                   aria-label="Search.."
                   aria-describedby="basic-addon2"
+                  onChange={(e) => setKeyword(e.target.value)}
                 />
                 <button className="btn btn-outline-success" type="submit">
                   Search

@@ -75,3 +75,23 @@ export function fetchProductsByCategory(category) {
     }
   };
 }
+
+export function filterProductsByKeyword(keyword) {
+  return async (dispatch, getState) => {
+    dispatch(fetchProductLoading(true));
+    try {
+      const result = await axios.get("https://fakestoreapi.com/products");
+      if (keyword !== "") {
+        const key = keyword.toLowerCase();
+        const filteredData = result.data.filter((product) =>
+          product.title.toLowerCase().includes(key)
+        );
+        dispatch(fetchProductsSuccess(filteredData));
+      } else {
+        dispatch(fetchProductsSuccess(result.data));
+      }
+    } catch (error) {
+      dispatch(fetchProductError(error));
+    }
+  };
+}
