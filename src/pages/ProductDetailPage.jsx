@@ -21,7 +21,6 @@ const ProductDetailPage = () => {
 
   useEffect(() => {
     dispatch(fetchProductById(id));
-    console.log("hello");
   }, [dispatch]);
 
   const handleAddToCart = () => {
